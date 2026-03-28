@@ -4,8 +4,15 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
 
-    public GameObject bulletPrefab;
+    public GameObject blueBullet;
+    public GameObject redBullet;
+    public bool isBlueMode = true;
     public Transform firePoint;
+    public float blueFireRate = 0.2f;
+    public float redFireRate = 0.1f;
+    private float nextFireTime = 0f;
+    public AudioSource shootSound;
+    
 
     private Vector3 movement;
 
@@ -18,14 +25,42 @@ public class PlayerMovement : MonoBehaviour
 
         transform.position += movement * moveSpeed * Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.Space))
+       
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            Shoot();
+            isBlueMode = !isBlueMode;
         }
+
+        if (isBlueMode)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && Time.time >= nextFireTime)
+            {
+                Shoot();
+                nextFireTime = Time.time + blueFireRate;
+            }
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.Space) && Time.time >= nextFireTime)
+            {
+                Shoot();
+                nextFireTime = Time.time + redFireRate;
+            }
+        }
+
     }
 
     void Shoot()
     {
-        Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+        shootSound.Play();
+
+        if (isBlueMode)
+        {
+            Instantiate(blueBullet, firePoint.position, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(redBullet, firePoint.position, Quaternion.identity);
+        }
     }
 }

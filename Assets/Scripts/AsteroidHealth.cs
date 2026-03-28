@@ -3,6 +3,7 @@ using UnityEngine;
 public class AsteroidHealth : MonoBehaviour
 {
     public int health = 1;
+    public AudioSource destroySound;
 
     public void TakeDamage(int damage)
     {
@@ -10,7 +11,9 @@ public class AsteroidHealth : MonoBehaviour
 
         if (health <= 0)
         {
-            Destroy(gameObject);
+            destroySound.Play();
+            Destroy(gameObject, 0.4f);
+            
         }
     }
 }
