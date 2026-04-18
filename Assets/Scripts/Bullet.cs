@@ -4,7 +4,8 @@ public class Bullet : MonoBehaviour
 {
     public float speed = 12f;
     public int damage = 1;
-    public string bulletColor; 
+    public string bulletColor;
+   
     void Update()
     {
         transform.Translate(Vector2.up * speed * Time.deltaTime);
@@ -29,6 +30,18 @@ public class Bullet : MonoBehaviour
         {
             if (orb.orbColor == bulletColor)
             {
+                // ADD SCORE HERE
+                ScoreManager sm = FindObjectOfType<ScoreManager>();
+
+                if (bulletColor == "Blue")
+                {
+                    sm.AddBlueScore(1);
+                }
+                else if (bulletColor == "Red")
+                {
+                    sm.AddRedScore(1);
+                }
+
                 Destroy(orb.gameObject); // correct color
             }
 
