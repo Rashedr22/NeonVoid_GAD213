@@ -7,14 +7,17 @@ public class GameManager : MonoBehaviour
     public float timeLeft = 60f;
     public int targetScore = 20;
 
-    public TextMeshProUGUI timerText; // ✅ MOVE IT HERE
+    public TextMeshProUGUI timerText;
+    public TextMeshProUGUI resultText;
 
     private ScoreManager scoreManager;
     private bool gameEnded = false;
+    
 
     void Start()
     {
         scoreManager = FindObjectOfType<ScoreManager>();
+        resultText.gameObject.SetActive(false);
     }
 
     void Update()
@@ -38,13 +41,25 @@ public class GameManager : MonoBehaviour
 
         int totalScore = scoreManager.blueScore + scoreManager.redScore;
 
+        resultText.gameObject.SetActive(true);
+
         if (totalScore >= targetScore)
         {
-            Debug.Log("YOU WIN!");
+            resultText.text = "YOU WIN!";
         }
         else
         {
-            Debug.Log("YOU LOSE!");
+            resultText.text = "YOU LOSE!";
         }
     }
+
+        public void ShowLose()
+    {
+        gameEnded = true;
+        Time.timeScale = 0f;
+
+        resultText.gameObject.SetActive(true);
+        resultText.text = "YOU LOSE!";
+    }
+
 }

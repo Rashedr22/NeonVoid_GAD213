@@ -16,8 +16,8 @@ public class PlayerLife : MonoBehaviour
 
         if (lives <= 0)
         {
-            Time.timeScale = 0f;
-            Debug.Log("GAME OVER");
+            GameManager gm = FindObjectOfType<GameManager>();
+            gm.ShowLose();
             return;
         }
 
